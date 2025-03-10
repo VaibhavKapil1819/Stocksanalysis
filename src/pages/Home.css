@@ -1,0 +1,44 @@
+/* Home Page Styles */
+body {
+    background: #f5f7fa; /* Light grayish-blue background */
+    font-family: "Arial", sans-serif;
+  }
+  
+  h1 {
+    color: #2c3e50;
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  h2 {
+    color: #34495e;
+    text-align: center;
+  }
+  
+  .stock-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 20px;
+    justify-content: center;
+  }
+  
+  /* No Stocks Message */
+  p {
+    text-align: center;
+    font-size: 18px;
+    color: #e74c3c; /* Red message if no stocks available */
+  }
+  .filter-container {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+  }
+  
+  .filter-container select {
+    padding: 8px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  

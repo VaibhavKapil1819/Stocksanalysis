@@ -1,0 +1,32 @@
+/* Stock Card Styles */
+.stock-card {
+    background: linear-gradient(to bottom right, #ffffff, #e3eaf7);
+    border-radius: 12px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    transition: transform 0.3s ease-in-out;
+    text-align: center;
+  }
+  
+  .stock-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.15);
+  }
+  
+  .stock-card h3 {
+    color: #2c3e50;
+    font-size: 22px;
+    margin-bottom: 5px;
+  }
+  
+  .stock-card p {
+    color: #7f8c8d;
+    font-size: 16px;
+    margin: 5px 0;
+  }
+  
+  .stock-card .highlight {
+    font-weight: bold;
+    color: #2980b9; /* Blue highlight for important details */
+  }
+  
