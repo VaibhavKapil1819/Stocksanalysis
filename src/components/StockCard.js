@@ -1,41 +1,53 @@
-// import React from "react";
-
-// const StockCard = ({ stock }) => {
-//   return (
-//     <div style={styles.card}>
-//       <h3>{stock.name}</h3>
-//       <p><strong>Sector:</strong> {stock.sector}</p>
-//       <p><strong>Risk Level:</strong> {stock.risk}</p>
-//       <p><strong>Time Horizon:</strong> {stock.timeHorizon}</p>
-//       <p><strong>Expected Return:</strong> {stock.expectedReturn}</p>
-//     </div>
-//   );
-// };
-
-// const styles = {
-//   card: {
-//     border: "1px solid #ddd",
-//     padding: "15px",
-//     borderRadius: "8px",
-//     marginBottom: "10px",
-//     background: "#f9f9f9",
-//     textAlign: "center",
-//   },
-// };
-
-// export default StockCard;
 import React from "react";
-import "../styles/StockCard.css";
+import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import { motion } from "framer-motion";
+
 const StockCard = ({ stock }) => {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    console.log("Navigating to Stock Details with:", stock);
+    navigate(`/stock/${stock.ticker}`, { state: { stock } });
+  };
+
   return (
-    <div className="stock-card">
-      <h2>{stock.name}</h2>
-      <p><strong>Sector:</strong> {stock.sector || "Not Available"}</p>
-      <p><strong>Risk Level:</strong> {stock.risk || "Not Available"}</p>
-      <p><strong>Time Horizon:</strong> {stock.timeHorizon || "Not Available"}</p>
-      <p><strong>Expected Return:</strong> {stock.expectedReturn || "Not Available"}</p>
-    </div>
+    <CardContainer
+      whileHover={{ scale: 1.05 }}
+      transition={{ type: "spring", stiffness: 300 }}
+      onClick={handleClick}
+    >
+      <h2>{stock.name} ({stock.ticker})</h2>
+      <Detail><strong>Current Price:</strong> {stock.currentPrice !== undefined ? `$${stock.currentPrice.toFixed(2)}` : "Not Available"}</Detail>
+      <Detail><strong>Market Cap:</strong> {stock.marketCap || "Not Available"}</Detail>
+      <Detail><strong>Price Change:</strong> {stock.priceChange || "Not Available"}</Detail>
+    </CardContainer>
   );
 };
 
 export default StockCard;
+
+// Styled Components
+const CardContainer = styled(motion.div)`
+  background: #333;
+  padding: 1.5rem;
+  border-radius: 10px;
+  cursor: pointer;
+  text-align: center;
+  transition: background 0.3s ease;
+
+  &:hover {
+    background: #444;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+`;
+
+const Detail = styled.p`
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  color: #ddd;
+`;

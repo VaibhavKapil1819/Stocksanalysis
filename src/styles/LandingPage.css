@@ -1,0 +1,49 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f4f4f4;
+  }
+  
+  /* Navbar */
+  .navbar {
+    background: #111;
+    color: white;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .navbar ul {
+    list-style: none;
+    display: flex;
+  }
+  
+  .navbar li {
+    margin-left: 20px;
+  }
+  
+  /* Hero Section */
+  .hero {
+    text-align: center;
+    padding: 5rem 2rem;
+    background: url('https://source.unsplash.com/1600x900/?stock,market') no-repeat center center/cover;
+    color: white;
+  }
+  
+  /* Stock Cards */
+  .stocks-container {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    padding: 2rem;
+  }
+  
+  .stock-card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+  }
+  

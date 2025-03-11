@@ -1,88 +1,86 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import React from "react";
+import { useLocation } from "react-router-dom";
+import styled from "styled-components";
+import { motion } from "framer-motion";
 import StockCard from "../components/StockCard";
-import stockData from "../data/stockData"; // Ensure correct path
 import Navbar from "../components/Navbar";
-import "./Home.css"; // Ensure this file exists for styling
 
 const Home = () => {
-  const [filteredStocks, setFilteredStocks] = useState(stockData);
-  const [filters, setFilters] = useState({
-    sector: "",
-    risk: "",
-    timeHorizon: "",
-    expectedReturn: "",
-  });
+  const location = useLocation();
+  const receivedStocks = location.state?.stocks || [];
 
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    filterStocks();
-  }, [filters]);
-
-  const filterStocks = () => {
-    const filtered = stockData.filter((stock) => {
-      return (
-        (!filters.sector || stock.sector === filters.sector) &&
-        (!filters.risk || stock.risk === filters.risk) &&
-        (!filters.timeHorizon || stock.timeHorizon === filters.timeHorizon) &&
-        (!filters.expectedReturn || stock.expectedReturn === filters.expectedReturn)
-      );
-    });
-    setFilteredStocks(filtered);
-  };
-
-  const handleFilterChange = (e) => {
-    setFilters({ ...filters, [e.target.name]: e.target.value });
-  };
+  console.log("Received stocks in Home.js:", receivedStocks);
 
   return (
-    <div>
+    <Container>
       <Navbar />
-      <h1>Hello, welcome to your investment dashboard!</h1>
+      <ContentContainer
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <Header>
+          <h1>Hello, welcome to your investment dashboard!</h1>
+        </Header>
 
-      {/* Filters */}
-      <div className="filter-container">
-        <select name="sector" value={filters.sector} onChange={handleFilterChange}>
-          <option value="">Select Sector</option>
-          <option value="Technology">Technology</option>
-          <option value="Healthcare">Healthcare</option>
-          <option value="Finance">Finance</option>
-        </select>
-
-        <select name="risk" value={filters.risk} onChange={handleFilterChange}>
-          <option value="">Select Risk Level</option>
-          <option value="Low">Low</option>
-          <option value="Medium">Medium</option>
-          <option value="High">High</option>
-        </select>
-
-        <select name="timeHorizon" value={filters.timeHorizon} onChange={handleFilterChange}>
-          <option value="">Select Time Horizon</option>
-          <option value="Short-Term">Short-Term</option>
-          <option value="Medium-Term">Medium-Term</option>
-          <option value="Long-Term">Long-Term</option>
-        </select>
-
-        <select name="expectedReturn" value={filters.expectedReturn} onChange={handleFilterChange}>
-          <option value="">Select Expected Return</option>
-          <option value="5%">5%</option>
-          <option value="10%">10%</option>
-          <option value="15%">15%</option>
-        </select>
-      </div>
-
-      {/* Investment Recommendations */}
-      <h2>Investment Recommendations</h2>
-      <div className="stock-grid">
-        {filteredStocks.length > 0 ? (
-          filteredStocks.map((stock, index) => <StockCard key={index} stock={stock} />)
-        ) : (
-          <p>No stocks match your preferences. Try adjusting your filters.</p>
-        )}
-      </div>
-    </div>
+        {/* Investment Recommendations */}
+        <Section>
+          <h2>Investment Recommendations</h2>
+          <StockGrid>
+            {receivedStocks.length > 0 ? (
+              receivedStocks.map((stock, index) => (
+                <StockCard key={index} stock={stock} />
+              ))
+            ) : (
+              <EmptyMessage>No stock recommendations available.</EmptyMessage>
+            )}
+          </StockGrid>
+        </Section>
+      </ContentContainer>
+    </Container>
   );
 };
 
 export default Home;
+
+// Styled Components
+const Container = styled.div`
+  background: #1a1a1a;
+  min-height: 100vh;
+  color: white;
+`;
+
+const ContentContainer = styled(motion.div)`
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+`;
+
+const Header = styled.div`
+  text-align: center;
+  margin-bottom: 2rem;
+  h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+`;
+
+const Section = styled.div`
+  margin-top: 2rem;
+  h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+`;
+
+const StockGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+`;
+
+const EmptyMessage = styled.p`
+  text-align: center;
+  font-size: 1.2rem;
+  color: #888;
+`;
